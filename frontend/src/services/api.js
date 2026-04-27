@@ -1,5 +1,7 @@
 // Helper to get the base URL dynamically based on where the app is running
-const API_BASE_URL = `http://${window.location.hostname}:8000`;
+const API_BASE_URL = window.location.hostname === "localhost"
+  ? "http://localhost:8000"
+  : "https://visionai-backend-4.onrender.com";
 
 export async function getDocument(docId) {
   try {
@@ -18,7 +20,7 @@ export async function restoreVersion(docId, index) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${localStorage.getItem("token")}` 
+        "Authorization": `Bearer ${localStorage.getItem("token")}`
       }
     });
     return await response.json();
