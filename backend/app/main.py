@@ -1,8 +1,13 @@
 import asyncio
+import os
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy import text
+from dotenv import load_dotenv 
+
+# 1. Load environment variables BEFORE importing other app modules
+load_dotenv()
 
 from app.database.connection import engine, Base
 from app.models import snapshot, user, document, permission
@@ -18,8 +23,9 @@ from app.api.routes.code import router as code_router
 from app.api.routes.ai import router as ai_router
 
 from app.services.redis_service import redis_client 
-from app.code_runner import execution_worker 
+from app.code_runner import execution_worker
 
+# Initialize database tables
 snapshot.Base.metadata.create_all(bind=engine)
 Base.metadata.create_all(bind=engine) 
 
@@ -43,6 +49,7 @@ app = FastAPI(
     lifespan=lifespan
 )
 
+# Added specific origins for security, keep ["*"] only if you are still testing
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"], 
@@ -51,7 +58,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
+# Routes
 app.include_router(auth_router)  
 app.include_router(ws_router) 
 
@@ -74,10 +81,10 @@ def test_db():
     try:
         with engine.connect() as connection:
             connection.execute(text("SELECT 1"))
+            connection.commit() # Important for some Postgres versions
         return {"database": "connected"}
     except Exception as e:
         return {"database": "failed", "error": str(e)}
-    
 
 @app.get("/test-redis", tags=["Health Check"]) 
 async def test_redis():

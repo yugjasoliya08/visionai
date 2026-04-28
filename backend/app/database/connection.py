@@ -1,17 +1,38 @@
+import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
+from dotenv import load_dotenv
 
-DATABASE_URL = "postgresql://postgres:password@127.0.0.1:5433/collab_db"
+# 1. Force load the .env file from the current directory, overriding any cached vars
+load_dotenv(override=True)
 
+# 2. Retrieve the URL
+DATABASE_URL = os.getenv("DATABASE_URL")
+
+# 3. Fallback for local development if .env is missing
+if not DATABASE_URL:
+    DATABASE_URL = "postgresql://postgres:password@127.0.0.1:5432/collab_db"
+    print("⚠️  No DATABASE_URL found in environment. Falling back to local address.")
+
+# 4. Critical fix for Render/Heroku compatibility
+if DATABASE_URL and DATABASE_URL.startswith("postgres://"):
+    DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
+
+# 5. Engine Configuration
 engine = create_engine(
-    DATABASE_URL,
-    pool_pre_ping=True 
+    DATABASE_URL, 
+    pool_pre_ping=True,
+    echo=False
 )
 
-SessionLocal = sessionmaker(
-    autocommit=False,
-    autoflush=False,
-    bind=engine
-)
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 Base = declarative_base()
+
+# 6. Dependency helper for FastAPI routes
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
