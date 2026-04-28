@@ -9,7 +9,7 @@ export default function Login() {
   const [error,    setError]    = useState('');
   const navigate = useNavigate();
 
-  const API_BASE_URL = `http://${window.location.hostname}:8000`;
+  
 
   const handleLogin = async (e) => {
     e.preventDefault();

@@ -1,3 +1,4 @@
+import { API_BASE_URL } from "../services/api.js";
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -58,7 +59,7 @@ function OnlineUsersModal({ C, doc, token, currentUser, onClose }) {
   useEffect(() => {
     (async () => {
       try {
-        const r = await fetch(`http://127.0.0.1:8000/documents/${doc.id}/collaborators`, {
+        const r = await fetch(`${API_BASE_URL}/documents/${doc.id}/collaborators`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         if (r.ok) {
@@ -218,7 +219,7 @@ export default function Dashboard() {
 
   const fetchDocs = async () => {
     try {
-      const r = await fetch("http://127.0.0.1:8000/documents/", { headers: { Authorization: `Bearer ${token}` } });
+      const r = await fetch(`${API_BASE_URL}/documents/", { headers: { Authorization: `Bearer ${token}` } });
       if (r.ok) {
         const data = await r.json();
         setDocs(data);
@@ -254,7 +255,7 @@ export default function Dashboard() {
 
     setCreating(true);
     try {
-      const r = await fetch("http://127.0.0.1:8000/documents/", {
+      const r = await fetch(`${API_BASE_URL}/documents/", {
         method: "POST",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
         body: JSON.stringify({ title: title.trim(), language: lang })
@@ -267,7 +268,7 @@ export default function Dashboard() {
   const joinSession = async () => {
     if (!inviteCode) return; setJoining(true);
     try {
-      const r = await fetch("http://127.0.0.1:8000/documents/join", { method: "POST", headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` }, body: JSON.stringify({ invite_code: inviteCode }) });
+      const r = await fetch(`${API_BASE_URL}/documents/join", { method: "POST", headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` }, body: JSON.stringify({ invite_code: inviteCode }) });
       if (r.ok) { const d = await r.json(); navigate(`/editor/${d.id}`); } else alert("Invalid invite code");
     } catch (e) { console.error(e); }
     setJoining(false);
