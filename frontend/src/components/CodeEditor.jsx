@@ -811,7 +811,7 @@ export default function CodeEditor() {
       if (!copilotOk) return;
       if (codeRef.current.trim().length < 15) return;
       try {
-        const r = await fetch(`${API_BASE_URL}/ai/suggest", { method: "POST", headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` }, body: JSON.stringify({ code: codeRef.current.slice(-400) }) });
+        const r = await fetch(`${API_BASE_URL}/ai/suggest`, { method: "POST", headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` }, body: JSON.stringify({ code: codeRef.current.slice(-400) }) });
         if (!r.ok) return; const d = await r.json();
         if (d.suggestion?.trim() && !d.suggestion.startsWith("//") && !d.suggestion.startsWith("⚠️")) { setInlineAi(d.suggestion.split("\n")[0]); setTimeout(() => setInlineAi(""), 8000); }
       } catch { }
@@ -912,7 +912,7 @@ export default function CodeEditor() {
     const tid = activeTerm; addTermLine(tid, `$ run main.${LEXT[lang] || "py"}…`, "cmd");
     try {
       await fetch(`${API_BASE_URL}/versions/${docId}/save`, { method: "POST", headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` }, body: JSON.stringify({ content: codeRef.current }) });
-      await fetch(`${API_BASE_URL}/code/run", { method: "POST", headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` }, body: JSON.stringify({ code: codeRef.current, language: lang, doc_id: docId, input: typeof overrideInput === "string" ? overrideInput : (curTerm?.input || "") }) });
+      await fetch(`${API_BASE_URL}/code/run`, { method: "POST", headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` }, body: JSON.stringify({ code: codeRef.current, language: lang, doc_id: docId, input: typeof overrideInput === "string" ? overrideInput : (curTerm?.input || "") }) });
       const h = await fetch(`${API_BASE_URL}/versions/${docId}`, { headers: { Authorization: `Bearer ${token}` } });
       if (h.ok) setHist(await h.json());
     } catch (e) { console.error(e); addTermLine(tid, "❌ Run error. Check backend.", "error"); setIsRunning(false); }
@@ -926,7 +926,7 @@ export default function CodeEditor() {
     if (typeof overrideMsg !== "string") setAiInput("");
     setAiThink(true);
     try {
-      const r = await fetch(`${API_BASE_URL}/ai/chat", { method: "POST", headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` }, body: JSON.stringify({ message: userMsg, code: codeRef.current.slice(-1200), language: lang }) });
+      const r = await fetch(`${API_BASE_URL}/ai/chat`, { method: "POST", headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` }, body: JSON.stringify({ message: userMsg, code: codeRef.current.slice(-1200), language: lang }) });
       setAiThink(false);
       if (!r.ok) { setAiChats(p => [...p, { role: "bot", text: `❌ AI error (${r.status}). Check backend.` }]); return; }
       const d = await r.json();
@@ -941,7 +941,7 @@ export default function CodeEditor() {
     if (cmd === "ls" || cmd === "dir") { addTermLine(activeTerm, [...uploads, ...folFiles, ...sharedFiles].map(f => f.name).join("  ") || "(no files)", "output"); return; }
     if (cmd.startsWith("pip ") || cmd.startsWith("npm ") || cmd.startsWith("apt ")) {
       addTermLine(activeTerm, "Running package manager...", "info");
-      fetch(`${API_BASE_URL}/code/run", { method: "POST", headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` }, body: JSON.stringify({ code: cmd, language: "shell", doc_id: docId }) })
+      fetch(`${API_BASE_URL}/code/run`, { method: "POST", headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` }, body: JSON.stringify({ code: cmd, language: "shell", doc_id: docId }) })
         .catch(e => addTermLine(activeTerm, "❌ Connection Error: " + e.message, "error"));
       setTerms(p => p.map(t => t.id === activeTerm ? { ...t, input: "" } : t));
       return;
@@ -957,7 +957,7 @@ export default function CodeEditor() {
     }
 
     // Evaluate unrecognized input as raw code (REPL-like behavior)
-    fetch(`${API_BASE_URL}/code/run", { method: "POST", headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` }, body: JSON.stringify({ code: cmd, language: lang, doc_id: docId }) })
+    fetch(`${API_BASE_URL}/code/run`, { method: "POST", headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` }, body: JSON.stringify({ code: cmd, language: lang, doc_id: docId }) })
       .catch(e => addTermLine(activeTermRef.current, "❌ Connection Error: " + e.message, "error"));
 
     setTerms(p => p.map(t => t.id === activeTerm ? { ...t, input: "" } : t));

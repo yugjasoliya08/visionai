@@ -18,7 +18,7 @@ export default function Register() {
     if (password.length < 6)  { setError('Password must be at least 6 characters.'); return; }
     setLoading(true);
     try {
-      const response = await fetch(`${API_BASE_URL}/auth/register', {
+      const response = await fetch(`${API_BASE_URL}/auth/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, email, password }),

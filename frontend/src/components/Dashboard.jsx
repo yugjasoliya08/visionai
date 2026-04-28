@@ -219,7 +219,7 @@ export default function Dashboard() {
 
   const fetchDocs = async () => {
     try {
-      const r = await fetch(`${API_BASE_URL}/documents/", { headers: { Authorization: `Bearer ${token}` } });
+      const r = await fetch(`${API_BASE_URL}/documents/`, { headers: { Authorization: `Bearer ${token}` } });
       if (r.ok) {
         const data = await r.json();
         setDocs(data);
@@ -255,7 +255,7 @@ export default function Dashboard() {
 
     setCreating(true);
     try {
-      const r = await fetch(`${API_BASE_URL}/documents/", {
+      const r = await fetch(`${API_BASE_URL}/documents/`, {
         method: "POST",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
         body: JSON.stringify({ title: title.trim(), language: lang })
@@ -268,7 +268,7 @@ export default function Dashboard() {
   const joinSession = async () => {
     if (!inviteCode) return; setJoining(true);
     try {
-      const r = await fetch(`${API_BASE_URL}/documents/join", { method: "POST", headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` }, body: JSON.stringify({ invite_code: inviteCode }) });
+      const r = await fetch(`${API_BASE_URL}/documents/join`, { method: "POST", headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` }, body: JSON.stringify({ invite_code: inviteCode }) });
       if (r.ok) { const d = await r.json(); navigate(`/editor/${d.id}`); } else alert("Invalid invite code");
     } catch (e) { console.error(e); }
     setJoining(false);
