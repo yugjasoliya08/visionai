@@ -1,11 +1,10 @@
-let baseUrl = import.meta.env.VITE_API_BASE_URL || "https://visionai-backend-4.onrender.com";
-if (baseUrl && !baseUrl.startsWith("http")) {
-  baseUrl = "https://" + baseUrl;
-}
+const baseUrl = import.meta.env.VITE_API_BASE_URL || "https://visionai-api.onrender.com";
 
-export const API_BASE_URL = window.location.hostname === "localhost" 
-  ? "http://localhost:8000" 
-  : baseUrl;
+const formattedBaseUrl = baseUrl.startsWith("http") ? baseUrl : `https://${baseUrl}`;
+
+export const API_BASE_URL = window.location.hostname === "localhost"
+  ? "http://localhost:8000"
+  : formattedBaseUrl;
 
 export async function getDocument(docId) {
   try {
@@ -24,7 +23,7 @@ export async function restoreVersion(docId, index) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${localStorage.getItem("token")}` 
+        "Authorization": `Bearer ${localStorage.getItem("token")}`
       }
     });
     return await response.json();
