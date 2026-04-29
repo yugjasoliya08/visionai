@@ -35,7 +35,7 @@ services:
         fromService:
           type: web
           name: visionai-api
-          property: url
+          property: host
     routes:
       - type: rewrite
         source: /*

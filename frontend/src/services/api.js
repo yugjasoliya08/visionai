@@ -1,7 +1,11 @@
-// Helper to get the base URL dynamically
+let baseUrl = import.meta.env.VITE_API_BASE_URL || "https://visionai-backend-4.onrender.com";
+if (baseUrl && !baseUrl.startsWith("http")) {
+  baseUrl = "https://" + baseUrl;
+}
+
 export const API_BASE_URL = window.location.hostname === "localhost" 
   ? "http://localhost:8000" 
-  : (import.meta.env.VITE_API_BASE_URL || "https://visionai-backend-4.onrender.com");
+  : baseUrl;
 
 export async function getDocument(docId) {
   try {
