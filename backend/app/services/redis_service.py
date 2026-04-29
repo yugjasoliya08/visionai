@@ -3,12 +3,10 @@ import json
 from typing import Dict, Any, AsyncGenerator
 from app.services.ot_service import Op, op_to_json, json_to_op
 
-redis_client = redis.Redis(
-    host="localhost",
-    port=6379,
-    decode_responses=True,
-    db=0
-)
+import os
+
+REDIS_URL = os.getenv("REDIS_URL", "redis://localhost:6379/0")
+redis_client = redis.from_url(REDIS_URL, decode_responses=True)
 
 async def publish_op(doc_id: str, op: Op, client_version: int, username: str):
     """Publish OT operation to doc channel."""

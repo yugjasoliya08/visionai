@@ -1,9 +1,41 @@
 services:
+  # 1. Free Redis Instance for real-time collaboration
+  - type: redis
+    name: visionai-redis
+    ipAllowList: [] # Allow all internal connections
+    plan: free
+
+  # 2. Python FastAPI Backend
+  - type: web
+    name: visionai-api
+    env: python
+    buildCommand: cd backend && pip install -r requirements.txt
+    startCommand: cd backend && uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: DATABASE_URL
+        value: postgresql://visionai_editor_user:1IwQljHVmDzuBfnGjLLVSANV9EVtfDPz@dpg-d7ngo58sfn5c73e24s7g-a.oregon-postgres.render.com/visionai_editor?sslmode=require
+      - key: REDIS_URL
+        fromService:
+          type: redis
+          name: visionai-redis
+          property: connectionString
+      - key: GEMINI_API_KEY
+        value: AIzaSyCcbH-K12z9DHcDQzNOOJEw2Eg40AbHXrU
+      - key: SECRET_KEY
+        value: 8673a0052cbf64690b8c5d922243ca8ab02623cb066ad44eea666d5649738486
+
+  # 3. React Frontend
   - type: web
     name: visionai-frontend
     env: static
     buildCommand: cd frontend && npm install && npm run build
     staticPublishPath: frontend/dist
+    envVars:
+      - key: VITE_API_BASE_URL
+        fromService:
+          type: web
+          name: visionai-api
+          property: url
     routes:
       - type: rewrite
         source: /*
