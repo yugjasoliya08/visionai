@@ -10,9 +10,12 @@ services:
     name: visionai-api
     env: python
     plan: free
-    buildCommand: cd backend && pip install -r requirements.txt
-    startCommand: cd backend && uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
     envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.0
       - key: DATABASE_URL
         value: postgresql://visionai_editor_user:1IwQljHVmDzuBfnGjLLVSANV9EVtfDPz@dpg-d7ngo58sfn5c73e24s7g-a.oregon-postgres.render.com/visionai_editor?sslmode=require
       - key: REDIS_URL
@@ -29,8 +32,9 @@ services:
   - type: web
     name: visionai-frontend
     env: static
-    buildCommand: cd frontend && npm install && npm run build
-    staticPublishPath: frontend/dist
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
     envVars:
       - key: VITE_API_BASE_URL
         fromService:
