@@ -1,11 +1,9 @@
-let baseUrl = import.meta.env.VITE_API_BASE_URL || "https://visionai-backend-4.onrender.com";
-if (baseUrl && !baseUrl.startsWith("http")) {
-  baseUrl = "https://" + baseUrl;
+let rawUrl = import.meta.env.VITE_API_BASE_URL || "https://visionai-backend-4.onrender.com";
+if (rawUrl && !rawUrl.startsWith("http")) {
+  rawUrl = "https://" + rawUrl;
 }
-
-const API_BASE_URL =
-  import.meta.env.VITE_API_BASE_URL ||
-  "https://visionai-backend-4.onrender.com";
+// Remove trailing slash if present
+const API_BASE_URL = rawUrl.replace(/\/+$/, "");
 
 export { API_BASE_URL };
 
