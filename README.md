@@ -1,9 +1,12 @@
 <div align="center">
 
-<img src="https://raw.githubusercontent.com/yugjasoliya08/visionai/main/frontend/public/favicon.ico" alt="Logo" width="100" />
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg" alt="Logo" width="90" />
 
 # ✨ VisionAI ✨
 **The Next-Generation Collaborative Code Editor**
+<br />
+*Architected and developed by **Yug Jasoliya***
+<br />
 
 [![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactjs.org/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-005571?style=for-the-badge&logo=fastapi)](https://fastapi.tiangolo.com/)
