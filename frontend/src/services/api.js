@@ -3,9 +3,11 @@ if (baseUrl && !baseUrl.startsWith("http")) {
   baseUrl = "https://" + baseUrl;
 }
 
-export const API_BASE_URL = window.location.hostname === "localhost"
-  ? "http://localhost:8000"
-  : baseUrl;
+const API_BASE_URL =
+  import.meta.env.VITE_API_BASE_URL ||
+  "https://visionai-backend-4.onrender.com";
+
+export { API_BASE_URL };
 
 export async function getDocument(docId) {
   try {
