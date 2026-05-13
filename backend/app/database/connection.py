@@ -9,10 +9,8 @@ load_dotenv(override=True)
 # 2. Retrieve the URL
 DATABASE_URL = os.getenv("DATABASE_URL")
 
-# 3. Fallback for local development if .env is missing
 if not DATABASE_URL:
-    #DATABASE_URL = "postgresql://postgres:password@127.0.0.1:5433/collab_db"
-    print("⚠️  No DATABASE_URL found in environment. Falling back to local address.")
+    raise ValueError("DATABASE_URL environment variable is missing")
 
 # 4. Critical fix for Render/Heroku compatibility
 if DATABASE_URL and DATABASE_URL.startswith("postgres://"):
