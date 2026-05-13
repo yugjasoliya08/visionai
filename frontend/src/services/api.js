@@ -1,10 +1,11 @@
-const baseUrl = import.meta.env.VITE_API_BASE_URL || "https://visionai-api.onrender.com";
-
-const formattedBaseUrl = baseUrl.startsWith("http") ? baseUrl : `https://${baseUrl}`;
+let baseUrl = import.meta.env.VITE_API_BASE_URL || "https://visionai-backend-4.onrender.com";
+if (baseUrl && !baseUrl.startsWith("http")) {
+  baseUrl = "https://" + baseUrl;
+}
 
 export const API_BASE_URL = window.location.hostname === "localhost"
   ? "http://localhost:8000"
-  : formattedBaseUrl;
+  : baseUrl;
 
 export async function getDocument(docId) {
   try {

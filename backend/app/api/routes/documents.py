@@ -131,8 +131,9 @@ def get_user_documents(
     current_user: User = Depends(get_current_user)
 ):
     docs = (
-        db.query(Document)
+        db.query(Document, User.username)
         .join(Permission, Document.id == Permission.document_id)
+        .outerjoin(User, Document.owner_id == User.id)
         .filter(Permission.user_id == current_user.id)
         .all()
     )
@@ -143,8 +144,10 @@ def get_user_documents(
             "title": d.title, 
             "language": getattr(d, 'language', 'python'),
             "invite_code": getattr(d, 'invite_code', None),
-            "updated_at": getattr(d, 'updated_at', None)
-        } for d in docs
+            "updated_at": getattr(d, 'updated_at', None),
+            "owner_username": uname,
+            "created_by": uname
+        } for d, uname in docs
     ]
 
 @router.get("/{doc_id}")
@@ -161,8 +164,22 @@ def fetch_document(
     if not permission:
         raise HTTPException(status_code=403, detail="No permission")
 
-    doc = db.query(Document).filter(Document.id == doc_id).first()
-    return doc
+    result = db.query(Document, User.username).outerjoin(User, Document.owner_id == User.id).filter(Document.id == doc_id).first()
+    if not result:
+        raise HTTPException(status_code=404, detail="Document not found")
+        
+    doc, uname = result
+    
+    # We need to add owner_username dynamically
+    return {
+        "id": doc.id,
+        "title": doc.title,
+        "content": doc.content,
+        "language": getattr(doc, 'language', 'python'),
+        "invite_code": getattr(doc, 'invite_code', None),
+        "owner_username": uname,
+        "created_by": uname
+    }
 
 @router.delete("/{doc_id}")
 def delete_document(
@@ -200,11 +217,22 @@ def get_document_collaborators(
     if not permission:
         raise HTTPException(status_code=403, detail="No permission")
 
+    doc = db.query(Document).filter(Document.id == doc_id).first()
+    owner_id = doc.owner_id if doc else None
+
     collaborators = (
-        db.query(User.username, User.email, Permission.role)
+        db.query(User.id, User.username, User.email, Permission.role)
         .join(Permission, User.id == Permission.user_id)
         .filter(Permission.document_id == doc_id)
+        .order_by(Permission.id.asc())
         .all()
     )
 
-    return [{"username": c.username, "email": c.email, "role": c.role} for c in collaborators]
+    return [
+        {
+            "username": c.username, 
+            "email": c.email, 
+            "role": "owner" if (c.id == owner_id or c.role == "owner" or idx == 0) else c.role
+        } 
+        for idx, c in enumerate(collaborators)
+    ]

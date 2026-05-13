@@ -1,15 +1,23 @@
 services:
-
   redis:
     image: redis:7
+    container_name: visionai_redis
     ports:
       - "6379:6379"
+    restart: always
 
   postgres:
     image: postgres:15
+    container_name: visionai_postgres
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
       POSTGRES_DB: collab_db
     ports:
       - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: always
+
+volumes:
+  postgres_data:

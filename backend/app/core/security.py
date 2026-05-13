@@ -16,11 +16,10 @@ def verify_password(plain_password: str, hashed_password: str):
 
 def create_access_token(data: dict):
     to_encode = data.copy()
-    
+
     if "username" in to_encode and "sub" not in to_encode:
         to_encode["sub"] = to_encode["username"]
 
-    
     expire = datetime.now(timezone.utc) + timedelta(hours=24)
     to_encode.update({"exp": expire})
     

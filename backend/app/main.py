@@ -28,7 +28,7 @@ from app.code_runner import execution_worker
 # Initialize database tables
 snapshot.Base.metadata.create_all(bind=engine)
 Base.metadata.create_all(bind=engine) 
-
+                                                                                                            
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     print("[STARTING] Background Execution Worker...")
@@ -58,7 +58,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Routes
+
 app.include_router(auth_router)  
 app.include_router(ws_router) 
 

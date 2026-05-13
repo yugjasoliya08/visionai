@@ -292,12 +292,19 @@ export default function Dashboard() {
     .sb.dng:hover{background:${C.rBg}!important;color:${C.red}!important}
     .card{transition:all .16s!important}
     .card:hover{border-color:${C.aBdr}!important;background:${C.s3}!important;transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,0,0,.3)!important}
-    .card:hover .cbar{opacity:1!important}
-    .card:hover .carr{opacity:1!important;transform:translateX(0)!important;color:${C.aLt}!important}
     .nbtn:hover{filter:brightness(1.1)} .nbtn:active{transform:scale(.97)}
     .jbtn:hover{background:${C.aBg}!important;color:${C.aLt}!important}
     .onl:hover{background:${C.aBg}!important;cursor:pointer}
     input:focus{outline:none!important;border-color:${C.aBdr}!important}
+    
+    .project-grid { 
+      display: grid; 
+      gap: 20px; 
+      grid-template-columns: repeat(1, minmax(0, 1fr)); 
+      width: 100%;
+    }
+    @media (min-width: 768px) { .project-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (min-width: 1024px) { .project-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
   `;
 
   const renderPanel = () => {
@@ -374,7 +381,7 @@ export default function Dashboard() {
         </div>
 
         {/* MAIN */}
-        <div style={{ flex: 1, display: "flex", flexDirection: "column", overflow: "hidden" }}>
+        <div style={{ flex: 1, minWidth: 0, width: "100%", maxWidth: "100%", overflowX: "hidden", display: "flex", flexDirection: "column" }}>
           {/* Topbar */}
           <header style={{ height: 42, background: "rgba(18,18,23,0.4)", backdropFilter: "blur(12px)", borderBottom: `1px solid ${C.b1}`, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 24px", flexShrink: 0 }}>
             <div style={{ display: "flex", alignItems: "center", gap: 8, fontFamily: "'JetBrains Mono',monospace", fontSize: 11, color: C.t4 }}>
@@ -404,8 +411,11 @@ export default function Dashboard() {
           </header>
 
           {/* Body */}
-          <main style={{ flex: 1, overflowY: "auto", padding: "48px 56px 64px" }}>
-            <div style={{ marginBottom: 44, animation: "fadeUp .4s ease both" }}>
+          <main style={{ flex: 1, width: "100%", overflowX: "hidden", overflowY: "auto", padding: "48px 0 64px" }}>
+            {/* max-w-7xl mx-auto px-12 equivalent wrapper for massive safety margins */}
+            <div style={{ width: "100%", maxWidth: 1280, margin: "0 auto", padding: "0 48px" }}>
+              
+              <div style={{ marginBottom: 44, animation: "fadeUp .4s ease both" }}>
               <div style={{ display: "flex", alignItems: "center", gap: 8, fontFamily: "'JetBrains Mono',monospace", fontSize: 10.5, letterSpacing: "0.14em", textTransform: "uppercase", color: C.accent, marginBottom: 10 }}>
                 <span style={{ width: 16, height: 1, background: C.accent, display: "inline-block" }} />Workspace
               </div>
@@ -478,8 +488,10 @@ export default function Dashboard() {
               </div>
             </div>
 
-            {/* Section label */}
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 16 }}>
+            {/* Recent Workspaces Wrapper */}
+            <div style={{ maxWidth: 960, width: "100%" }}>
+              {/* Section label */}
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 16 }}>
               <div style={{ display: "flex", alignItems: "center", gap: 10, fontSize: 10.5, textTransform: "uppercase", letterSpacing: "0.16em", color: C.t4, fontWeight: 700 }}>
                 Recent Workspaces <span style={{ display: "inline-block", height: 1, width: 24, background: C.b1 }} />
               </div>
@@ -495,11 +507,10 @@ export default function Dashboard() {
                 <p style={{ fontSize: 15, fontWeight: 600, color: C.t2 }}>No projects yet</p>
                 <p style={{ fontSize: 13, color: C.t4, lineHeight: 1.6, maxWidth: 280 }}>Create a project or paste an invite code to start collaborating.</p>
               </div>
-              : <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(300px,1fr))", gap: 12 }}>
+              : <div className="project-grid">
                 {docs.map((doc, i) => (
                   <div key={doc.id} className="card" onClick={() => navigate(`/editor/${doc.id}`)}
-                    style={{ position: "relative", display: "flex", alignItems: "center", gap: 14, padding: "16px 18px", background: C.s2, border: `1px solid ${C.b1}`, borderRadius: 14, cursor: "pointer", overflow: "hidden", animation: `fadeUp .3s ease ${i * .05}s both` }}>
-                    <div className="cbar" style={{ position: "absolute", left: 0, top: 14, bottom: 14, width: 3, borderRadius: "0 3px 3px 0", background: `linear-gradient(180deg,${C.accent},${C.aLt})`, opacity: 0, transition: "opacity .14s" }} />
+                    style={{ width: "100%", minWidth: 0, height: 90, position: "relative", display: "flex", alignItems: "center", gap: 12, padding: "14px 14px", background: C.s2, border: `1px solid ${C.b1}`, borderRadius: 14, cursor: "pointer", overflow: "hidden", animation: `fadeUp .3s ease ${i * .05}s both` }}>
                     <div style={{ width: 44, height: 44, borderRadius: 12, background: C.s4, border: `1px solid ${C.b1}`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontSize: 22 }}>
                       {LANG_ICON[doc.language] || LANG_ICON.default}
                     </div>
@@ -521,13 +532,12 @@ export default function Dashboard() {
                       onMouseLeave={e => { e.currentTarget.style.color = C.t3; e.currentTarget.style.background = "none"; }}>
                       <span style={{ width: 16, height: 16, display: "flex" }}>{I.users}</span>
                     </button>
-                    <div className="carr" style={{ flexShrink: 0, color: C.t4, opacity: 0, transform: "translateX(-6px)", transition: "all .15s" }}>
-                      <span style={{ width: 16, height: 16, display: "flex" }}>{I.chev}</span>
-                    </div>
                   </div>
                 ))}
               </div>
             }
+            </div>
+            </div>
           </main>
         </div>
       </div>

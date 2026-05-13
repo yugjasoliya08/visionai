@@ -255,7 +255,7 @@ const Toast = ({ C, notifs, rm }) => (
 
 const Dot = ({ delay }) => <span style={{ width: 5, height: 5, borderRadius: "50%", background: "currentColor", display: "inline-block", animation: `tdot 1.4s ${delay}s infinite ease-in-out` }} />;
 
-function OnlineUsersModal({ C, docId, token, onlineUsers, username, onClose }) {
+function OnlineUsersModal({ C, docId, token, onlineUsers, username, docOwnerUsername, onClose }) {
   const [roleMap, setRoleMap] = useState({});
   const [loading, setLoading] = useState(true);
   const gradients = ["#6366f1,#8b5cf6", "#10b981,#3b82f6", "#f59e0b,#ef4444", "#ec4899,#8b5cf6", "#06b6d4,#10b981"];
@@ -272,7 +272,10 @@ function OnlineUsersModal({ C, docId, token, onlineUsers, username, onClose }) {
     })();
   }, [docId, token]);
 
-  const getRole = (uname) => roleMap[uname] || "member";
+  const getRole = (uname) => {
+    if (docOwnerUsername && uname === docOwnerUsername) return "owner";
+    return roleMap[uname] || "member";
+  };
   const rc = r => r === "owner" ? C.amber : C.green;
   const rb = r => r === "owner" ? C.amBg : C.gBg;
   const rbdr = r => r === "owner" ? C.amBdr : C.gBdr;
@@ -443,6 +446,7 @@ export default function CodeEditor() {
   const [typingUs, setTypingUs] = useState([]);
   const [gitBranch] = useState("main");
   const [gitCh, setGitCh] = useState(0);
+  const [docOwnerUsername, setDocOwnerUsername] = useState(null);
   const [commitMsg, setCommitMsg] = useState("");
   const LS_COMMITS = `visionai_commits_${docId}`;
   const [commits, setCommits] = useState(() => {
@@ -614,6 +618,7 @@ export default function CodeEditor() {
         const r = await fetch(`${API_BASE_URL}/documents/${docId}`, { headers: { Authorization: `Bearer ${token}` } });
         if (r.ok) {
           const d = await r.json(); const f = d.content || ""; const savedLang = d.language || "python";
+          setDocOwnerUsername(d.owner_username || d.created_by || null);
           remRef.current = true; setCode(f); codeRef.current = f; mainContentRef.current = f;
           setLang(savedLang); localStorage.setItem(`visionai_lang_${docId}`, savedLang);
           if (f.trim()) { setHasContent(true); addTab(`main.${LEXT[savedLang] || "py"}`); }
