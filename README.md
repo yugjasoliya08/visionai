@@ -1,6 +1,7 @@
 <div align="center">
 
-<img src="https://images.unsplash.com/photo-1607799279861-4dddf8b60f14?auto=format&fit=crop&w=1200&h=300&q=80" alt="VisionAI Banner" style="border-radius: 15px; margin-bottom: 20px;" />
+![VisionAI Banner](https://images.unsplash.com/photo-1607799279861-4dddf8b60f14?auto=format&fit=crop&w=1200&h=300&q=80)
+<br/>
 
 # ⚡ VisionAI Workspace ⚡
 **The Ultimate Real-Time Code Collaboration Engine**
