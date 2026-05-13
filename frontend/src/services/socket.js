@@ -1,3 +1,5 @@
+import { API_BASE_URL } from "./api";
+
   let socket = null;
   let currentDoc = null;
   let currentUser = null;
@@ -22,10 +24,9 @@
         socket.close();
       }
 
-      // 🟢 DYNAMIC WS LOGIC: Replaces 127.0.0.1 with your laptop's IP automatically
-      // Use 'ws' for local network. If you ever deploy to HTTPS, this would be 'wss'
-      const wsProtocol = window.location.protocol === "https:" ? "wss" : "ws";
-      const wsUrl = `${wsProtocol}://${window.location.hostname}:8000/ws/${currentDoc}/${currentUser}?token=${currentToken}`;
+      // Use API_BASE_URL to determine the correct WebSocket URL
+      const wsUrlBase = API_BASE_URL.replace(/^http/, "ws");
+      const wsUrl = `${wsUrlBase}/ws/${currentDoc}/${currentUser}?token=${currentToken}`;
       
       console.log("🚀 Connecting to:", wsUrl);
 
