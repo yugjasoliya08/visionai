@@ -1,6 +1,6 @@
 <div align="center">
 
-![VisionAI Banner](https://images.unsplash.com/photo-1607799279861-4dddf8b60f14?auto=format&fit=crop&w=1200&h=300&q=80)
+![VisionAI Banner](frontend/public/banner.png)
 <br/>
 
 # ⚡ VisionAI Workspace ⚡
