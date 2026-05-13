@@ -1,123 +1,116 @@
 <div align="center">
 
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg" alt="Logo" width="90" />
+<img src="https://images.unsplash.com/photo-1607799279861-4dddf8b60f14?auto=format&fit=crop&w=1200&h=300&q=80" alt="VisionAI Banner" style="border-radius: 15px; margin-bottom: 20px;" />
 
-# ✨ VisionAI ✨
-**The Next-Generation Collaborative Code Editor**
-<br />
-*Architected and developed by **Yug Jasoliya***
-<br />
+# ⚡ VisionAI Workspace ⚡
+**The Ultimate Real-Time Code Collaboration Engine**
 
 [![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactjs.org/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-005571?style=for-the-badge&logo=fastapi)](https://fastapi.tiangolo.com/)
-[![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://python.org)
-[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)](https://postgresql.org/)
 [![WebSockets](https://img.shields.io/badge/WebSockets-000000?style=for-the-badge&logo=socket.io&logoColor=white)](#)
-[![Gemini](https://img.shields.io/badge/Gemini_2.5_Flash-4285F4?style=for-the-badge&logo=google&logoColor=white)](#)
+[![Gemini](https://img.shields.io/badge/Gemini_2.5-4285F4?style=for-the-badge&logo=google&logoColor=white)](#)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)](https://postgresql.org/)
 
-*Code together, execute instantly, and build faster with AI.*
+*Transform the way your team writes, debugs, and ships code.*
 
 <br />
 </div>
 
-## 🌌 Overview
+## 🌌 The Vision
+Code editors shouldn't be lonely. **VisionAI** bridges the gap between local development and cloud collaboration. By merging the powerful syntax engine of **VS Code (Monaco)** with lightning-fast **WebSockets**, VisionAI delivers a zero-latency, multi-player coding experience. 
 
-**VisionAI** is a premium, highly aesthetic, real-time collaborative code editor built for the modern developer. It combines the power of operational transformation (OT) for seamless simultaneous typing, an integrated terminal for live remote execution, and the intelligence of **Google Gemini 2.5 Flash** for instant code analysis and generation.
-
-Whether you're pair programming, conducting technical interviews, or just hacking together a script, VisionAI provides a world-class, frictionless environment directly in your browser.
-
-<br />
-
-## 🚀 Key Features
-
-### ⚡ Real-Time Engine
-> Powered by robust WebSockets and Operational Transformation.
-- **Flawless Collaboration**: Multiple users typing simultaneously with zero latency or merge conflicts.
-- **Live Presence Indicator**: See exactly who is online, typing, or currently in your workspace.
-- **Instant File Sync**: Create, delete, and share files instantly across all connected clients.
-
-### 🧠 Gemini AI Assistant
-> Your personal pair-programmer built right into the dashboard.
-- **Intelligent Autocomplete**: Hit `Tab` to seamlessly inject AI-generated code suggestions based on your context.
-- **Explain My Code**: Select any function and let Gemini break down the logic in simple terms.
-- **Interactive Chat**: A dedicated AI side-panel to ask architectural questions, debug errors, and brainstorm.
-
-### 💻 Live Remote Execution
-> Run code without ever leaving your browser.
-- **Multi-Language Support**: Execute **Python**, **C++**, **Java**, and **Shell** scripts instantly.
-- **Live Terminal**: A sleek, VS Code-inspired terminal capturing raw output and errors.
-- **Secure Backend Engine**: Sandboxed execution managed effortlessly via FastAPI.
+But we didn't stop there. We embedded **Google Gemini 2.5 Flash** directly into the core, acting as an omnipresent AI pair-programmer that can write, analyze, and explain code for your entire team in real-time.
 
 <br />
 
-## 🛠 Architectural Stack
+## 🔥 Unrivaled Features
 
-| Layer | Technology | Purpose |
+### 🚀 Zero-Latency Collaboration
+> *Operational Transformation (OT) ensures you never experience a merge conflict again.*
+- **Live Cursors & Presence**: See exactly who is typing and where.
+- **Instant Synchronization**: All file creations, deletions, and code changes broadcast globally in milliseconds.
+
+### 🧠 Gemini AI Pair-Programmer
+> *Your 10x developer companion, built right into the interface.*
+- **Context-Aware Autocomplete**: Press `Tab` to let Gemini finish your complex algorithms.
+- **Deep Explanations**: Highlight any confusing block of code and ask the AI to explain it in plain English.
+- **Floating Chat Panel**: Strategize architectures and debug stack traces with AI while your team watches.
+
+### 💻 Live Remote Execution Environment
+> *Stop switching windows. Run your code in the cloud.*
+- **Polyglot Execution**: Instantly compile and run **Python**, **C++**, **Java**, and **Shell**.
+- **Integrated Terminal**: A sleek, fully functional command-line interface directly in your browser.
+- **Sandboxed Security**: Code is executed safely on the backend and streamed back to the frontend.
+
+<br />
+
+## 📐 System Architecture
+
+<div align="center">
+
+| Layer | Stack | Function |
 | :--- | :--- | :--- |
-| **Frontend UI** | React.js (Vite) + Vanilla CSS | A hyper-fast, glassmorphic UI optimized for speed. |
-| **Editor Engine** | Monaco Editor | The core engine powering VS Code, providing native syntax highlighting. |
-| **Backend API** | Python 3.11 + FastAPI | Async handling of HTTP requests, authentication, and database routing. |
-| **Realtime Sync** | WebSockets + Redis | Handles all high-frequency operational transformation events. |
-| **Database** | PostgreSQL + SQLAlchemy | Securely persists document histories, users, and snapshots. |
+| **🎨 Client Interface** | `React` • `Vite` • `Monaco` | Ultra-fast, glassmorphic UI optimized for 60fps rendering. |
+| **⚙️ API Gateway** | `Python 3.11` • `FastAPI` | High-throughput asynchronous request handling. |
+| **⚡ Real-Time Engine**| `WebSockets` • `Redis` | Low-latency message brokering for operational transformation. |
+| **🗄️ Persistence** | `PostgreSQL` • `SQLAlchemy` | Secure, version-controlled history of all documents. |
+
+</div>
 
 <br />
 
-## 🖥 Getting Started
+## 🚀 Quick Start Guide
 
-### 1. Clone & Prepare
+Ready to host your own collaborative workspace? 
+
+### 1. The Backend
 ```bash
 git clone https://github.com/yugjasoliya08/visionai.git
-cd visionai
-```
+cd visionai/backend
 
-### 2. Launch the Backend
-> Requires Python 3.11+
-```bash
-cd backend
+# Initialize Virtual Environment
 python -m venv venv
 source venv/bin/activate  # Windows: venv\Scripts\activate
 pip install -r requirements.txt
 ```
-**Environment Variables (`backend/.env`)**
+**Configure `.env`**
 ```env
-DATABASE_URL="postgresql://username:password@localhost:5432/visionai_db"
-SECRET_KEY="generate_a_random_hex_string"
-GEMINI_API_KEY="your_google_gemini_api_key"
+DATABASE_URL="postgresql://user:pass@localhost/db"
+GEMINI_API_KEY="your_api_key"
 ```
-**Run Server**
+**Ignite the Server**
 ```bash
 uvicorn app.main:app --reload --port 8000
 ```
 
-### 3. Launch the Frontend
-> Requires Node.js 18+
+### 2. The Frontend
 ```bash
-cd frontend
+cd ../frontend
 npm install
 ```
-**Environment Variables (`frontend/.env`)**
+**Configure `.env`**
 ```env
 VITE_API_BASE_URL="http://localhost:8000"
 ```
-**Run App**
+**Launch**
 ```bash
 npm run dev
 ```
-Navigate to `http://localhost:5173` to experience VisionAI.
 
 <br />
 
-## ☁️ Deployment
+## ☁️ Production Deployment
 
-VisionAI is architected for a split-deployment model for maximum efficiency on free tiers.
-- **Frontend ➔ Vercel**: Import the `frontend` directory and deploy using the Vite preset.
-- **Backend ➔ Render**: Import the repository and let the included `render.yaml` Blueprint automatically provision your FastAPI backend and Redis instance.
+Deploying VisionAI is incredibly straightforward:
+
+1. **Frontend (Vercel)**: Simply import the `frontend` folder into Vercel using the Vite preset. Add your `VITE_API_BASE_URL`.
+2. **Backend (Render)**: Import the root repository into Render using the provided `render.yaml` Blueprint. Render will automatically spin up your Redis instance and FastAPI server. Just attach a PostgreSQL database!
 
 <br />
 
 ---
 <div align="center">
-  <p><b>Built with passion and pixel-perfect precision by Yug Jasoliya</b></p>
+  <p><b>Designed and Engineered by Yug Jasoliya</b></p>
   <a href="https://github.com/yugjasoliya08/visionai/issues">Report Bug</a>
   <span> · </span>
   <a href="https://github.com/yugjasoliya08/visionai/issues">Request Feature</a>
